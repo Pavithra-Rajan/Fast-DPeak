@@ -438,20 +438,21 @@ import pandas as pd
 df = pd.read_csv('IRIS.csv')
 X=df.values[:,:4]
 Y= df.values[:,[4]]
-
 def distance(p,q):
-    return sum(np.array(p)**2-np.array(q)**2)**(1/2)
+    s=0
+    for i in range(len(p)):
+        s+=((p[i]-q[i])**2)
+    return s**(1/2)
 
-
-
-
+    
 ct=CoverTree(distance)
 
 
 
 for p in X:
-    ct.insert(p)
+    ct.insert(list(p))
+
+
 #test
-nearest_neighbours=ct.knn(X[1])
-
-
+nearest_neighbours=ct.knn(list(X[1]),4)
+print(nearest_neighbours)
