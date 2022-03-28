@@ -12,6 +12,7 @@
 # If you use this code in your research, kindly refer to the technical
 # report.
 
+from tkinter.tix import DirSelectBox
 import numpy as np
 import operator
 from random import choice
@@ -505,7 +506,8 @@ for idx in range(len(X)):
         if flg:
             LDP.add(idx)
             for pt_idx in N_ki[idx]:
-                considered[idx]=0
+                considered[pt_idx]=0
+            #considered[idx]=0
         else:
             min_dij=sys.maxsize
             min_idx=-1
@@ -515,8 +517,17 @@ for idx in range(len(X)):
                     min_idx=j
             parent_node[idx]=min_idx
             del_i[idx]=min_idx
+print(sum(considered))
 
-k2=k
+# k2=k
+
+
+# while len(LDP)>(0.01*len(X)) and k2<=(0.005*len(X)):
+#     k2=2*k2
+#     QT=CoverTree(distance)
+#     for ldp in LDP:
+
+
 
 
 
