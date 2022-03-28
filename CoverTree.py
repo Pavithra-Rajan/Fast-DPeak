@@ -18,6 +18,7 @@ from random import choice
 from heapq import nsmallest, heappush, heappop
 from itertools import product
 from collections import Counter
+import sys
 '''
 try:
     from collections import Counter
@@ -448,11 +449,81 @@ def distance(p,q):
 ct=CoverTree(distance)
 
 
-
+#inserting in covertree
 for p in X:
     ct.insert(list(p))
 
+k=5
 
-#test
-nearest_neighbours=ct.knn(list(X[1]),4)
-print(nearest_neighbours)
+# #test
+# nearest_neighbours=ct.knn(list(X[1]),4)
+# print(nearest_neighbours)
+
+
+
+#k nearest neighbours of ith index
+N_ki={}
+
+#matrix having distance from ith to jth point
+
+d_ij=[[0 for i in range(len(X))] for j in range(len(X))]
+
+#for storing knn density values for all points
+knn_density_set={}
+for idx in range(len(X)):
+    get_l = ct.knn(list(X[idx]),k+1)
+    N_ki[idx]=[]
+    d_ij[idx][idx]=0
+    for j in get_l[1:]:
+        N_ki[idx].append(j[0])
+        d_ij[idx][j[0]]=j[2]
+    
+
+    knn_density_set[idx]=1/(get_l[-1][2])
+    
+
+#a list for just checking whether a point is deleted during the iteration or not    
+considered=[1 for i in range(len(X))]
+
+#to store LDPs
+LDP=set()
+
+#parent values for each
+parent_node={idx:-1 for idx in range(len(X))}
+
+
+#storing nearest point with more density than that particular point
+del_i={idx:-1 for idx in range(len(X))}
+
+for idx in range(len(X)):
+    if considered[idx]:
+        flg=True
+        for j in N_ki[idx]:
+            if knn_density_set[j]>=knn_density_set[idx]:
+                flg=False
+                break
+        if flg:
+            LDP.add(idx)
+            for pt_idx in N_ki[idx]:
+                considered[idx]=0
+        else:
+            min_dij=sys.maxsize
+            min_idx=-1
+            for j in N_ki[idx]:
+                if knn_density_set[j]>knn_density_set[idx] and d_ij[idx][j]<min_dij:
+                    min_dij=min(min_dij,d_ij[idx][j])
+                    min_idx=j
+            parent_node[idx]=min_idx
+            del_i[idx]=min_idx
+
+k2=k
+
+
+
+
+
+            
+            
+            
+
+
