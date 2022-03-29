@@ -478,6 +478,7 @@ for idx in range(len(X)):
     for j in get_l[1:]:
         N_ki[idx].append(j[0])
         d_ij[idx][j[0]]=j[2]
+        d_ij[j[0]][idx]=j[2]
     
 
     knn_density_set[idx]=1/(get_l[-1][2])
@@ -485,6 +486,9 @@ for idx in range(len(X)):
 
 #a list for just checking whether a point is deleted during the iteration or not    
 considered=[1 for i in range(len(X))]
+
+
+
 
 #to store LDPs
 LDP=set()
@@ -517,16 +521,43 @@ for idx in range(len(X)):
                     min_idx=j
             parent_node[idx]=min_idx
             del_i[idx]=min_idx
-print(sum(considered))
-
-# k2=k
 
 
-# while len(LDP)>(0.01*len(X)) and k2<=(0.005*len(X)):
-#     k2=2*k2
-#     QT=CoverTree(distance)
-#     for ldp in LDP:
+#print(sum(considered))
 
+k2=k
+
+
+while len(LDP)>(0.01*len(X)) and k2<=(0.005*len(X)):
+    k2=2*k2
+    #constructing query tree for all node belonging to LDP
+    QT=CoverTree(distance)
+    for ldp in LDP:
+        QT.insert(list(ldp))
+    #for all points in dataset find K2th nearest neighbours in LDP based tree 
+    N_k2i={}
+    for idx in range(len(X)):
+        get_l = QT.knn(list(X[idx]),k2)
+        N_k2i[idx]=[]
+        for j in get_l:
+            if idx!=j[0]:
+                N_k2i[idx].append(j[0])
+    for ldp in LDP:
+        for each_pt in range(len(X)):
+            min_dij=sys.maxsize
+            min_idx=-1
+            for nearest_neighbour in N_k2i[each_pt]:
+                if knn_density_set[nearest_neighbour]>knn_density_set[each_pt] and d_ij[each_pt][nearest_neighbour]<min_dij:
+                    min_dij=min(min_dij,d_ij[each_pt][nearest_neighbour])
+                    min_idx=nearest_neighbour
+            if min_idx!=-1:
+                
+                LDP.remove(ldp)
+                parent_node[ldp]=min_idx
+
+
+#print(parent_node)
+                
 
 
 
