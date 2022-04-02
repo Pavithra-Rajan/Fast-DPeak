@@ -518,7 +518,7 @@ def Local_Density_Peak(X,k):
         if considered[idx]:
             flg=True
             for j in N_ki[idx]:
-                if knn_density_set[j]>=knn_density_set[idx]:
+                if knn_density_set[j]>knn_density_set[idx]:
                     flg=False
                     break
             if flg:
@@ -548,7 +548,8 @@ def Local_Density_Peak(X,k):
         #constructing query tree for all node belonging to LDP
         QT=CoverTree(distance)
         for ldp in LDP:
-            QT.insert(list(ldp))
+            QT.insert(list(X[ldp]))
+            
         #for all points in dataset find K2th nearest neighbours in LDP based tree 
         N_k2i={}
         for idx in range(len(X)):
