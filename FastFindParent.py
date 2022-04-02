@@ -1,48 +1,7 @@
 import sys
+         
 
-
-def getsubNodes(adj,nodes):
-    start = [None] * 100001
-    end = [None] * 100001
-    
-    
-    dfs_order = []
-    
-    visited = [False] * 100001
-    
-    subnodes={}
-
-    def dfs(a, b):
-    
-       
-        visited[a] = 1
-        b += 1
-        start[a] = b
-        dfs_order.append(a)
-        
-        for it in adj[a]:
-            if not visited[it]:
-                b = dfs(it, b)
-        
-        end[a] = b
-        return b
-    
-    
-    
-    
-    for i in nodes:
-        print('333')
-        
-        if start[i] != end[i]:
-        
-            subnodes[i]=[]
-            for j in range(start[i]+1, end[i]+1):
-            
-                subnodes[i].append(dfs_order[j-1])
-    return subnodes
-                
-
-def FastFindParent(LDP,parent_nodes,knn_density):
+def FastFindParent(k,LDP,parent_nodes,knn_density,d_ij,N_ki):
     ldp_density={idx:knn_density[idx] for idx in LDP}
     
     sldp_density={idx:knn_density for idx,knn_density in sorted(ldp_density.items(),reverse=True,key=lambda x:x[1])}
@@ -50,36 +9,44 @@ def FastFindParent(LDP,parent_nodes,knn_density):
     M=len(LDP)
     
 
-    children={parent:[] for j in parent_nodes.values()}
+    children={node:[] for node in list(set(parent_nodes.values()+parent_nodes.keys()))}
+
+    
     
     for child,parent in parent_nodes:
         children[parent].append(child)
 
+    #getsubnodes of each nodes will be done here
+    def getSubNodes(tree,start):
+        visited = [] 
+        queue = []    
+        subnodes=[]
+        
+        visited.append(start)
+        queue.append(start)
+
+        while queue:          
+            m = queue.pop(0) 
+            subnodes.append(m) 
+
+            for neighbour in tree[m]:
+                if neighbour not in visited:
+                    visited.append(neighbour)
+                    queue.append(neighbour)
+
+        try:
+            return subnodes[1:]
+        except:
+            return []
+
 
     childrens={}
-    for parent in children:
-        flg=True
-        curr=children[parent]
-        childrens[parent]=[]
-        while flg:
-            try:
-                childrens[parent].append(curr)
-                curr=children[curr]
-            except:
-                flg=False
-
-
-    nodes_considered={idx:1 for idx in children}
-
-    
-#bfs
+    for node in children:
+        childrens[node]=getSubNodes(children,node)
 
 
 
-
-
-    
-
+    #nodes_considered={idx:1 for idx in children}
 
 
     del_i={sLDP[M-1]:sys.maxsize}
@@ -93,15 +60,36 @@ def FastFindParent(LDP,parent_nodes,knn_density):
         while Q>=M:
             point_j=sLDP[Q]
 
+
             flags={q:0 for q in childrens[point_j]}
+            visited={subnode:1 for subnode in childrens[point_j]}
+            for subnode in childrens[point_j]:
+                if visited[subnode] and knn_density[point_i]>knn_density[subnode]:
+                    #skip subnode and all subnodes of s
+                    visited[subnode]=0
+                    for sub_subnode in childrens[subnode]:
+                        visited[sub_subnode]=0
+                if flags[subnode]:
+                    visited[subnode]=0
+
+                if del_i[point_i]>d_ij[point_i][subnode]:
+                    parent_nodes[point_i]=subnode
+                    continue
+                for L in range(k,0,-1):
+                    if d_ij[point_i][subnode]>del_i[point_i]+d_ij[subnode][N_ki[subnode][L-1]]:
+                        for q in N_ki[:L]:
+                            flags[q]=1
+
+                
+                
+
+
+
+
+            
 
 
 
 
 
 
-
-
-a={1:[2,3,4],2:[5,6,7],3:[10],7:[9,8]}
-nodes=[1,2,3,4,5,6,7,8,9,10]
-print(getsubNodes(a,nodes))
