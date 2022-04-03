@@ -1,4 +1,12 @@
-def Local_Density_Peak(X,k,distance,knn_density,d_ij,N_ki):
+import pandas as pd
+import sys
+import numpy as np
+from CoverTree import CoverTree
+from Classifier import distance
+
+
+
+def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
         
     #a list for just checking whether a point is deleted during the iteration or not    
     considered=[1 for i in range(len(X))]
@@ -39,7 +47,7 @@ def Local_Density_Peak(X,k,distance,knn_density,d_ij,N_ki):
 
     
 
-    k2=k
+    
 
 
     while len(LDP)>(0.01*len(X)) and k2<=(0.005*len(X)):
@@ -71,4 +79,4 @@ def Local_Density_Peak(X,k,distance,knn_density,d_ij,N_ki):
                     parent_node[ldp]=min_idx
 
 
-    return LDP
+    return LDP,parent_node,del_i

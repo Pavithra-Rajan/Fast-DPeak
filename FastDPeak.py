@@ -1,15 +1,17 @@
 from CoverTree import CoverTree
 from LocalDensityPeak import Local_Density_Peak
 from FastFindParent import FastFindParent
+from Classifier import distance 
+import pandas as pd
+import sys
+import numpy as np
 
-def FastDPeak(x,K,distance):
+
+def FastDPeak(X,K,C,ct):
     K2=K
 
-    ct=CoverTree(distance)
-    for point in x:
-        ct.insert(list(point))
     
-      #k nearest neighbours of ith index
+    #k nearest neighbours of ith index
     N_ki={}
 
     #matrix having distance from ith to jth point
@@ -37,14 +39,19 @@ def FastDPeak(x,K,distance):
             
         knn_density_set[idx]=1/(get_l[-1][2])
 
-    LDP=Local_Density_Peak(X,K,distance,knn_density_set,d_ij,N_ki)
+
+    #Local_density_peaks
+    LDP,parent_nodes,del_i=Local_Density_Peak(X,K,K2,knn_density_set,d_ij,N_ki)
     
-    # Call FastFindParent
-    FastFindParent(K,LDP,parent_nodes)
+    # FastFindParent
+    LDP,parent_nodes,del_i = FastFindParent(K,LDP,parent_nodes,del_i,knn_density_set,d_ij,N_ki)
 
     # the first C points with highest value of δ ×(kNN-Density w. r . t K )
+    sorted_LDP=sorted(list(LDP),reverse=True,key=lambda x:del_i[x]*knn_density_set[x])[:C]
+
 
     # Label each peak and its subnodes as a cluster
+
     
 
 
