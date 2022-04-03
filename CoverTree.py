@@ -12,7 +12,6 @@
 # If you use this code in your research, kindly refer to the technical
 # report.
 
-from tkinter.tix import DirSelectBox
 import pandas as pd
 import numpy as np
 import operator

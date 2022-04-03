@@ -2,22 +2,27 @@ import sys
 import pandas as pd
 import numpy as np
 
-         
+def distance(p,q):
+    s=0
+    for i in range(len(p)):
+        s+=((p[i]-q[i])**2)
+    return s**(1/2)
+
 
 def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
     ldp_density={idx:knn_density[idx] for idx in LDP}
     
     sldp_density={idx:knn_density for idx,knn_density in sorted(ldp_density.items(),reverse=True,key=lambda x:x[1])}
-    sLDP=sldp_density.keys()
+    sLDP=list(sldp_density.keys())
     M=len(LDP)
     
 
-    children={node:[] for node in list(set(parent_nodes.values()+parent_nodes.keys()))}
+    children={node:[] for node in list(set(list(parent_nodes.values())+list(parent_nodes.keys())))}
 
     
     
-    for child,parent in parent_nodes:
-        children[parent].append(child)
+    for child in parent_nodes:
+        children[parent_nodes[child]].append(child)
 
     #getsubnodes of each nodes will be done here
     def getSubNodes(tree,start):
@@ -41,8 +46,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
             return subnodes[1:]
         except:
             return []
-
-
+    
     childrens={}
     for node in children:
         childrens[node]=getSubNodes(children,node)
@@ -51,7 +55,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
 
     #nodes_considered={idx:1 for idx in children}
 
-
+    
     del_i[sLDP[M-1]]=sys.maxsize
 
     W=M-2
@@ -91,7 +95,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
 
             Q-=1
         W-=1
-    return sLDP,parent_nodes,del_i
+    return sLDP,parent_nodes,del_i,childrens
 
                 
                 

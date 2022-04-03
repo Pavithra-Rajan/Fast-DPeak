@@ -2,8 +2,14 @@ import pandas as pd
 import sys
 import numpy as np
 from CoverTree import CoverTree
-from Classifier import distance
 
+
+
+def distance(p,q):
+    s=0
+    for i in range(len(p)):
+        s+=((p[i]-q[i])**2)
+    return s**(1/2)
 
 
 def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):

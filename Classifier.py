@@ -1,8 +1,9 @@
-from FastDPeak import FastDPeak
+
 from CoverTree import CoverTree
 import pandas as pd
 import sys
 import numpy as np
+from FastDPeak import FastDPeak
 
 
 def distance(p,q):
@@ -19,8 +20,10 @@ Y= df.values[:,[4]]
 K=5
 
 
+
+
 #C=categories
-C=len(set(Y))
+C=len(set([i[0] for i in Y]))
 
 ct=CoverTree(distance)
 for point in X:
@@ -28,4 +31,4 @@ for point in X:
 
 
 
-clusters=FastDPeak(X,K,C,ct,distance)
+clusters=FastDPeak(X,K,C,ct)
