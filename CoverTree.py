@@ -1,16 +1,8 @@
-# File: covertree.py
-# Date of creation: 05/04/07
-# Copyright (c) 2007, Thomas Kollar <tkollar@csail.mit.edu>
-# Copyright (c) 2011, Nil Geisweiller <ngeiswei@gmail.com>
-# All rights reserved.
-#
-# This is a class for the cover tree nearest neighbor algorithm.  For
-# more information please refer to the technical report entitled "Fast
+#This python code implementation has been inspired from the works of Thomas Kollar and Nil Geisweiller (2014), "Fast
 # Nearest Neighbors" by Thomas Kollar or to "Cover Trees for Nearest
 # Neighbor" by John Langford, Sham Kakade and Alina Beygelzimer
-#  
-# If you use this code in your research, kindly refer to the technical
-# report.
+
+# This is a class for the cover tree nearest neighbor algorithm.  
 
 import pandas as pd
 import numpy as np
@@ -74,7 +66,6 @@ class Node:
             pass
         
         return []
-
 
     def removeConnections(self, level):
         if(self.parent != None):
@@ -151,7 +142,6 @@ class CoverTree:
         Output:
           - iterable of (idx, point)
         """
-
         queue = [(self.maxlevel, self.root)]
 
         observed = set()
@@ -351,7 +341,6 @@ class CoverTree:
         self._writeDotty_rec(outputFile, [self.root], self.maxlevel)
         outputFile.write("}")
 
-
     #
     # Overview:recursively build printHash (helper function for writeDotty)
     #
@@ -382,13 +371,11 @@ class CoverTree:
         return output.getvalue()
     '''
 
-
     # check if the tree satisfies all invariants
     def _check_invariants(self):
         return self._check_nesting() and \
             self._check_covering_tree() and \
             self._check_seperation()
-
 
     # check if my_invariant is satisfied:
     # C_i denotes the set of nodes at level i
@@ -401,8 +388,7 @@ class CoverTree:
                 print("At level", i, "the invariant", my_invariant, "is false")
                 return False
             C = C_next
-        return True
-        
+        return True      
     
     # check if the invariant nesting is satisfied:
     # C_i is a subset of C_{i-1}
@@ -410,8 +396,7 @@ class CoverTree:
         return set(C) <= set(C_next)
 
     def _check_nesting(self):
-        return self._check_my_invariant(self._nesting)
-        
+        return self._check_my_invariant(self._nesting)       
     
     # check if the invariant covering tree is satisfied
     # for all p in C_{i-1} there exists a q in C_i so that

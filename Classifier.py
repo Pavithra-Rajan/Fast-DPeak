@@ -17,18 +17,8 @@ def distance(p,q):
 df = pd.read_csv('data.csv',sep=',',header=None)
 X=df.values[:,:2]
 
-
-
-
-
-
-
-
 #K value
 K=4
-
-
-
 
 #C=categories
 C=3
@@ -37,20 +27,11 @@ ct=CoverTree(distance)
 for point in X:
     ct.insert(list(point))
 
-
-
 peaks,clusters=FastDPeak(X,K,C,ct)
-
-
-
-
 
 colors=['green','orange','red']
 for i in range(C):
     plt.scatter([j[0] for j in clusters[i]],[j[1] for j in clusters[i]],color=colors[i])
-
-
-
 
 plt.scatter([i[0] for i in peaks], [i[1] for i in peaks], marker="^",color="blue", s=40, linewidths=5)
 plt.show()

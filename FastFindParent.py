@@ -8,7 +8,6 @@ def distance(p,q):
         s+=((p[i]-q[i])**2)
     return s**(1/2)
 
-
 def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
     ldp_density={idx:knn_density[idx] for idx in LDP}
     
@@ -16,10 +15,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
     sLDP=list(sldp_density.keys())
     M=len(LDP)
     
-
     children={node:[] for node in list(set(list(parent_nodes.values())+list(parent_nodes.keys())))}
-
-    
     
     for child in parent_nodes:
         children[parent_nodes[child]].append(child)
@@ -50,8 +46,6 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
     childrens={}
     for node in children:
         childrens[node]=getSubNodes(children,node)
-
-
 
     #nodes_considered={idx:1 for idx in children}
 
@@ -95,6 +89,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
 
             Q-=1
         W-=1
+        
     return sLDP,parent_nodes,del_i,childrens
 
                 

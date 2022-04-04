@@ -12,7 +12,6 @@ def distance(p,q):
         s+=((p[i]-q[i])**2)
     return s**(1/2)
 
-
 def getClusters(X,peaks,C):
     clusters=[[] for i in range(C)]
     for i in range(len(X)):
@@ -22,8 +21,7 @@ def getClusters(X,peaks,C):
 
 def FastDPeak(X,K,C,ct):
     K2=K
-
-    
+  
     #k nearest neighbours of ith index
     N_ki={}
 
@@ -39,8 +37,6 @@ def FastDPeak(X,K,C,ct):
             d_ij[idx_pt1][idx_pt2]=dist
             d_ij[idx_pt2][idx_pt1]=dist
     
-
-
     #for storing knn density values for all points
     knn_density_set={}
     for idx in range(len(X)):
@@ -51,7 +47,6 @@ def FastDPeak(X,K,C,ct):
             N_ki[idx].append(j[0])
             
         knn_density_set[idx]=1/(get_l[-1][2])
-
     
     #Local_density_peaks
     LDP,parent_nodes,del_i=Local_Density_Peak(X,K,K2,knn_density_set,d_ij,N_ki)
@@ -59,16 +54,10 @@ def FastDPeak(X,K,C,ct):
     # FastFindParent
     LDP,parent_nodes,del_i,childrens= FastFindParent(K,LDP,parent_nodes,del_i,knn_density_set,d_ij,N_ki)
 
-    
-
     # the first C points with highest value of δ ×(kNN-Density w. r . t K )
     sorted_LDP=sorted(list(LDP),reverse=True,key=lambda x:del_i[x]*knn_density_set[x])[:C]
 
-    
-
-  
     sorted_LDP=[X[idx] for idx in sorted_LDP]
-
 
     clusters=getClusters(X,sorted_LDP,C)
 

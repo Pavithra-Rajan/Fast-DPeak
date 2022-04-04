@@ -3,14 +3,11 @@ import sys
 import numpy as np
 from CoverTree import CoverTree
 
-
-
 def distance(p,q):
     s=0
     for i in range(len(p)):
         s+=((p[i]-q[i])**2)
     return s**(1/2)
-
 
 def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
         
@@ -22,7 +19,6 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
 
     #parent values for each
     parent_node={idx:-1 for idx in range(len(X))}
-
 
     #storing nearest point with more density than that particular point
     del_i={idx:-1 for idx in range(len(X))}
@@ -50,11 +46,6 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
                 parent_node[idx]=min_idx
                 del_i[idx]=min_idx
 
-
-    
-
-    
-    
     flg=True
     while len(LDP)>(0.01*len(X)) and k2<=(0.05*len(X)) and flg:
         k2=2*k2
@@ -96,7 +87,5 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
             if len(LDP)<=(0.01*len(X)):
                     flg=False
                     break
-
-
 
     return LDP,parent_node,del_i
