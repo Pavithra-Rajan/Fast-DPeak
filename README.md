@@ -8,4 +8,4 @@
 |5|Joseph Mani Jacob Mani | B190529CS |Local Density Peak and FastDPeak diagram|
 |6|Lenoah Chacko | B190657CS |FastDPeak and Report|
 |7|Varun Chittezhath Anilkumar | B190621CS |Report and FastFindParent|
-|8|Gagan Lal | B190621CS |FastFindParent|
+|8|Gagan Lal | B190480CS |FastFindParent|
