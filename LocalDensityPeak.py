@@ -31,7 +31,7 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
         if considered[idx]:
             flg=True
             for j in N_ki[idx]:
-                if knn_density_set[j]>knn_density_set[idx]:
+                if knn_density_set[j]>=knn_density_set[idx]:
                     flg=False
                     break
             if flg:
@@ -54,9 +54,9 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
     
 
     
-
-
-    while len(LDP)>(0.01*len(X)) and k2<=(0.005*len(X)):
+    
+    flg=True
+    while len(LDP)>(0.01*len(X)) and k2<=(0.05*len(X)) and flg:
         k2=2*k2
         #constructing query tree for all node belonging to LDP
         QT=CoverTree(distance)
@@ -71,18 +71,32 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
             for j in get_l:
                 if idx!=j[0]:
                     N_k2i[idx].append(j[0])
-        for ldp in LDP:
+        test=set([ldp for ldp in LDP])
+        
+        for ldp in test:
             for each_pt in range(len(X)):
-                min_dij=sys.maxsize
-                min_idx=-1
-                for nearest_neighbour in N_k2i[each_pt]:
-                    if knn_density_set[nearest_neighbour]>knn_density_set[each_pt] and d_ij[each_pt][nearest_neighbour]<min_dij:
-                        min_dij=d_ij[each_pt][nearest_neighbour]
-                        min_idx=nearest_neighbour
-                if min_idx!=-1:
+                if len(LDP)<=(0.01*len(X)):
+                    flg=False
+                    break
+                if considered[each_pt]:
                     
-                    LDP.remove(ldp)
-                    parent_node[ldp]=min_idx
+                    min_dij=sys.maxsize
+                    min_idx=-1
+                    for nearest_neighbour in N_k2i[each_pt]:
+                        if knn_density_set[nearest_neighbour]>knn_density_set[each_pt] and d_ij[each_pt][nearest_neighbour]<min_dij:
+                            min_dij=d_ij[each_pt][nearest_neighbour]
+                            min_idx=nearest_neighbour
+                    if min_idx!=-1:
+                        try:
+                            LDP.remove(ldp)
+                            parent_node[ldp]=min_idx
+                        except:
+                            parent_node[ldp]=min_idx
+
+            if len(LDP)<=(0.01*len(X)):
+                    flg=False
+                    break
+
 
 
     return LDP,parent_node,del_i

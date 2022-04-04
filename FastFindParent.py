@@ -55,7 +55,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
 
     #nodes_considered={idx:1 for idx in children}
 
-    
+    #print(del_i,M,sLDP)
     del_i[sLDP[M-1]]=sys.maxsize
 
     W=M-2

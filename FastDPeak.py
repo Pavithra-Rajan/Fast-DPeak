@@ -13,6 +13,13 @@ def distance(p,q):
     return s**(1/2)
 
 
+def getClusters(X,peaks,C):
+    clusters=[[] for i in range(C)]
+    for i in range(len(X)):
+        dist=[distance(X[i],j) for j in peaks]
+        clusters[dist.index(min(dist))].append(X[i])
+    return clusters
+
 def FastDPeak(X,K,C,ct):
     K2=K
 
@@ -45,7 +52,7 @@ def FastDPeak(X,K,C,ct):
             
         knn_density_set[idx]=1/(get_l[-1][2])
 
-
+    
     #Local_density_peaks
     LDP,parent_nodes,del_i=Local_Density_Peak(X,K,K2,knn_density_set,d_ij,N_ki)
     
@@ -58,7 +65,17 @@ def FastDPeak(X,K,C,ct):
     sorted_LDP=sorted(list(LDP),reverse=True,key=lambda x:del_i[x]*knn_density_set[x])[:C]
 
     
-    # Label each peak and its subnodes as a cluster
+
+  
+    sorted_LDP=[X[idx] for idx in sorted_LDP]
+
+
+    clusters=getClusters(X,sorted_LDP,C)
+
+    return sorted_LDP,clusters
+    
+
+
 
     
 
