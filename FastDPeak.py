@@ -30,12 +30,12 @@ def FastDPeak(X,K,C,ct):
     d_ij=[[0 for i in range(len(X))] for j in range(len(X))]
 
 
-    for idx_pt1 in range(len(X)):
-        for idx_pt2 in range(len(X)):
+    # for idx_pt1 in range(len(X)):
+    #     for idx_pt2 in range(len(X)):
 
-            dist=distance(X[idx_pt1],X[idx_pt2])
-            d_ij[idx_pt1][idx_pt2]=dist
-            d_ij[idx_pt2][idx_pt1]=dist
+    #         dist=distance(X[idx_pt1],X[idx_pt2])
+    #         d_ij[idx_pt1][idx_pt2]=dist
+    #         d_ij[idx_pt2][idx_pt1]=dist
     
     #for storing knn density values for all points
     knn_density_set={}
@@ -45,6 +45,8 @@ def FastDPeak(X,K,C,ct):
         
         for j in get_l[1:]:
             N_ki[idx].append(j[0])
+            d_ij[idx][j[0]]=j[2]
+            d_ij[j[0]][idx]=j[2]
             
         knn_density_set[idx]=1/(get_l[-1][2])
     

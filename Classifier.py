@@ -8,6 +8,10 @@ import decimal
 from random import randint
 import matplotlib.pyplot as plt
 
+import timeit
+
+start = timeit.default_timer()
+
 def distance(p,q):
     s=0
     for i in range(len(p)):
@@ -18,7 +22,7 @@ df = pd.read_csv('data.csv',sep=',',header=None)
 X=df.values[:,:2]
 
 #K value
-K=4
+K=5
 
 #C=categories
 C=3
@@ -28,6 +32,10 @@ for point in X:
     ct.insert(list(point))
 
 peaks,clusters=FastDPeak(X,K,C,ct)
+
+stop = timeit.default_timer()
+
+print('Time: ', stop - start)  
 
 colors=['green','orange','red']
 for i in range(C):
