@@ -22,7 +22,7 @@ df = pd.read_csv('data.csv',sep=',',header=None)
 X=df.values[:,:2]
 
 #K value
-K=5
+K=4
 
 #C=categories
 C=3

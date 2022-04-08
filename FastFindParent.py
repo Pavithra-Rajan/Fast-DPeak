@@ -11,7 +11,7 @@ def distance(p,q):
 def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
     ldp_density={idx:knn_density[idx] for idx in LDP}
     
-    sldp_density={idx:knn_density for idx,knn_density in sorted(ldp_density.items(),reverse=True,key=lambda x:x[1])}
+    sldp_density={idx:knn_density for idx,knn_density in sorted(ldp_density.items(),key=lambda x:x[1])}
     sLDP=list(sldp_density.keys())
     M=len(LDP)
     

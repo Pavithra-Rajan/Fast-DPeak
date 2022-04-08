@@ -10,6 +10,7 @@ def distance(p,q):
     return s**(1/2)
 
 def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
+    
         
     #a list for just checking whether a point is deleted during the iteration or not    
     considered=[1 for i in range(len(X))]
@@ -44,7 +45,7 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
                         min_dij=d_ij[idx][j]
                         min_idx=j
                 parent_node[idx]=min_idx
-                del_i[idx]=min_idx
+                del_i[idx]=d_ij[min_idx][idx]
 
     flg=True
     while len(LDP)>(0.01*len(X)) and k2<=(0.05*len(X)) and flg:
