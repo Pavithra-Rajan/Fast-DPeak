@@ -176,22 +176,28 @@ class CoverTree:
     #
     def _insert_iter(self, p):
         Qi_p_ds = [(self.root, self.distance(p, self.root.data))]
-        i = self.maxlevel
+        i = self.maxlevel+10
+        #print("Inside insert iter")
         while True:
+            #print("iterating")
             # get the children of the current level
             # and the distance of the all children
             Q_p_ds = self._getChildrenDist_(p, Qi_p_ds, i)
             d_p_Q = self._min_ds_(Q_p_ds)
 
             if d_p_Q == 0.0:    # already there, no need to insert
+                #print("returned")
                 return
             elif d_p_Q > self.base**i: # the found parent should be right
+                #print("broke")
                 break
             else: # d_p_Q <= self.base**i, keep iterating
 
                 # find parent
+                #print("Need to find parent")
                 if self._min_ds_(Qi_p_ds) <= self.base**i:
                     parent = choice([q for q, d in Qi_p_ds if d <= self.base**i])
+                    #print("Parent found")
                     pi = i
                 
                 # construct Q_i-1

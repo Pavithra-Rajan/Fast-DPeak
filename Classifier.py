@@ -1,4 +1,3 @@
-
 from CoverTree import CoverTree
 import pandas as pd
 import sys
@@ -18,18 +17,24 @@ def distance(p,q):
         s+=((p[i]-q[i])**2)
     return s**(1/2)
 
-df = pd.read_csv('data.csv',sep=',',header=None)
-X=df.values[:,:2]
+#df = pd.read_csv('data.csv',sep=',',header=None)
+df = pd.read_csv('shortened.data',sep=',')
+#df = pd.read_csv('kddcup.data.gz', compression='gzip', header=0, sep=',', quotechar='"', error_bad_lines=False)
+X=df.values[:,[0]+[i for i in range(4,41)]]
+#X=df.values[:,[-1]]
+#print(np.unique(X))
 
 #K value
 K=4
 
 #C=categories
-C=3
+C=23
 
 ct=CoverTree(distance)
 for point in X:
-    ct.insert(list(point))
+    #print(point)
+    
+    ct.insert(point)
 
 peaks,clusters=FastDPeak(X,K,C,ct)
 
@@ -37,9 +42,11 @@ stop = timeit.default_timer()
 
 print('Time: ', stop - start)  
 
+'''
 colors=['green','orange','red']
 for i in range(C):
     plt.scatter([j[0] for j in clusters[i]],[j[1] for j in clusters[i]],color=colors[i])
 
 plt.scatter([i[0] for i in peaks], [i[1] for i in peaks], marker="^",color="blue", s=40, linewidths=5)
 plt.show()
+'''
