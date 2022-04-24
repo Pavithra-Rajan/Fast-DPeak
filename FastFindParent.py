@@ -46,7 +46,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
     childrens={}
     for node in children:
         childrens[node]=getSubNodes(children,node)
-
+    print("fastfind parent entered")
     #nodes_considered={idx:1 for idx in children}
 
     #print(del_i,M,sLDP)
@@ -89,7 +89,7 @@ def FastFindParent(k,LDP,parent_nodes,del_i,knn_density,d_ij,N_ki):
 
             Q-=1
         W-=1
-        
+    print("fast find parent closed")
     return sLDP,parent_nodes,del_i,childrens
 
                 

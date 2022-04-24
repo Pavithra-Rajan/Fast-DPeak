@@ -93,7 +93,7 @@ class CoverTree:
     #  minimum number of elements at a given level to have their
     #  distances to the element to insert or query evaluated.
     #
-    def __init__(self, distance, data=None, root = None, maxlevel = 10, base = 2,
+    def __init__(self, distance, data=None, root = None, maxlevel = 20, base = 2,
                  jobs = 1, min_len_parallel = 100):
         self.distance = distance
         self.root = root
@@ -176,7 +176,7 @@ class CoverTree:
     #
     def _insert_iter(self, p):
         Qi_p_ds = [(self.root, self.distance(p, self.root.data))]
-        i = self.maxlevel+10
+        i = self.maxlevel
         #print("Inside insert iter")
         while True:
             #print("iterating")

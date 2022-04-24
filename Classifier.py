@@ -20,7 +20,7 @@ def distance(p,q):
 #df = pd.read_csv('data.csv',sep=',',header=None)
 df = pd.read_csv('shortened.data',sep=',')
 #df = pd.read_csv('kddcup.data.gz', compression='gzip', header=0, sep=',', quotechar='"', error_bad_lines=False)
-X=df.values[:,[0]+[i for i in range(4,41)]]
+X=df.values[:,[0]+[i for i in range(4,16)]]
 #X=df.values[:,[-1]]
 #print(np.unique(X))
 
@@ -28,14 +28,14 @@ X=df.values[:,[0]+[i for i in range(4,41)]]
 K=4
 
 #C=categories
-C=23
+C=7
 
 ct=CoverTree(distance)
 for point in X:
     #print(point)
     
     ct.insert(point)
-
+print("inserted")
 peaks,clusters=FastDPeak(X,K,C,ct)
 
 stop = timeit.default_timer()

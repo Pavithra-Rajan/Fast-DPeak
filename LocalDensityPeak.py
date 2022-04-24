@@ -46,9 +46,10 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
                         min_idx=j
                 parent_node[idx]=min_idx
                 del_i[idx]=d_ij[min_idx][idx]
-
+    print("3rd checkpoint")
+    print(len(list(LDP)))
     flg=True
-    while len(LDP)>(0.01*len(X)) and k2<=(0.05*len(X)) and flg:
+    while len(LDP)>(0.001*len(X)) and k2<=(0.1*len(X)) and flg:
         k2=2*k2
         #constructing query tree for all node belonging to LDP
         QT=CoverTree(distance)
@@ -88,5 +89,5 @@ def Local_Density_Peak(X,k,k2,knn_density_set,d_ij,N_ki):
             if len(LDP)<=(0.01*len(X)):
                     flg=False
                     break
-
+    print("locL DENSITY PEak works")
     return LDP,parent_node,del_i
