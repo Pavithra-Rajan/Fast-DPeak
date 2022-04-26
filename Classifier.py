@@ -52,7 +52,6 @@ for point in X:
     
     ct.insert(point)
     
-print("inserted")
 peaks,clusters=FastDPeak(X,K,C,ct)
 
 stop = timeit.default_timer()

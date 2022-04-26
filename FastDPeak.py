@@ -36,7 +36,6 @@ def FastDPeak(X,K,C,ct):
     #         dist=distance(X[idx_pt1],X[idx_pt2])
     #         d_ij[idx_pt1][idx_pt2]=dist
     #         d_ij[idx_pt2][idx_pt1]=dist
-    print("1st checkpoint")
     #for storing knn density values for all points
     knn_density_set={}
     for idx in range(len(X)):
@@ -49,7 +48,6 @@ def FastDPeak(X,K,C,ct):
             d_ij[j[0]][idx]=j[2]
             
         knn_density_set[idx]=1/(get_l[-1][2])
-    print("2nd checkpoint")
     
     #Local_density_peaks
     LDP,parent_nodes,del_i=Local_Density_Peak(X,K,K2,knn_density_set,d_ij,N_ki)
